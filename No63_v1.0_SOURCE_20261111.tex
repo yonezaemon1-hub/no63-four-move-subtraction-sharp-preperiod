@@ -1,0 +1,154 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,booktabs,array,microtype}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\mex}{\operatorname{mex}}
+\newcommand{\SG}{\mathcal{G}}
+\newcommand{\word}[1]{\mathtt{#1}}
+\title{A Sharp Preperiod and Explicit Nim-Words for the Four-Move Subtraction Sets $\{3,7,9,c\}$}
+\author{Ryutaro Yonezu\\\small Independent Researcher}
+\date{Preprint v1.0 --- 11 November 2026\\\small Not human peer-reviewed}
+\begin{document}
+\maketitle
+\begin{abstract}
+For the normal-play one-heap subtraction game with move set $S_c=\{3,7,9,c\}$, where $c>9$ is odd, we determine the complete Sprague--Grundy sequence and its \emph{least} eventual preperiod and period. For $c=13$ the nim-sequence is purely periodic with least period $16$; for every other admissible $c$ its least preperiod is $c+5$ and its least eventual period is $2$. A single block expression gives the full nim-word for all odd $c\ge23$, and six small values are treated by finite recurrence certificates. This proves, for the slice $a=3$, an ultimate-periodicity pattern reported by Zhang as a finite computational observation for four-move sets $\{a,2a+1,3a,c\}$. The eventual period-two phenomenon itself is not claimed as new. Historical novelty beyond the compared sources remains unverified.
+\end{abstract}
+
+\noindent\textbf{Status.} Research No.~63, preprint v1.0. AI-assisted research. Author-supplied AI-review assessments report MODEL/PROOF/COMPUTATION/SCOPE PASS; a subsequent v0.4 differential review is reported PASS. These reports and author-side primary-source comparisons have distinct scopes. Human peer review and formal proof verification have not been performed. \textbf{REFERENCES PARTIAL; NOVELTY INCONCLUSIVE.}
+
+\section{Introduction and relationship to earlier work}
+A finite one-heap subtraction game is specified by a nonempty set of legal move sizes $S\subset\mathbb{Z}_{>0}$. Its Sprague--Grundy sequence is eventually periodic, but determining the entire nim-word along with its \emph{least} preperiod and period can be subtle. Cairns and Ho~\cite{CairnsHo2010} study ultimate bipartiteness, and Ho~\cite{Ho2015} studies the expansion of three-element subtraction sets. Zhang~\cite{Zhang2024} studies parameterized move sets and formulates asymptotic-linearity and piecewise-linearity conjectures for their preperiods and periods.
+
+In particular, Zhang's Remark~7 (author-posted revision, p.~10) describes finite calculations for four-move sets
+\[S=\{a,2a+1,3a,c\},\qquad a\ge3\text{ odd},\quad c>3a\text{ odd},\]
+with $3\le a\le25$ and $c<500$. For $a=3$, its exceptional branch $c=4a+1$ gives $c=13$; otherwise the remark reports ultimate period two. The observation alone does not furnish the full all-$c$ nim-word or the least preperiod formula proved here. Theorem~6.3 of the same source treats three-move families; in particular, the earlier candidate $\{3,5,8k+1\}$ is already covered by that theorem and is \emph{not} pursued here. The observed ultimate period-two behavior itself is not claimed as new.
+
+Flammenkamp's dissertation~\cite{Flammenkamp1997} develops explicit four-move nim-word constructions, so this method is prior art. Author-side comparison of the 156-page author-hosted original covered relevant definitions, four-move classifications and constructions, and general results; no direct statement yielding the present full-word and least-preperiod formula was identified in those passages. Its pure-periodicity criterion for the win--loss sequence (Satz~17, printed p.~61) assumes adjacent gaps at most the least move, failing here at $7-3>3$, and concerns a sequence distinct from the Sprague--Grundy sequence. These bounded checks do not establish historical novelty. The enlarged book edition (ISBN 3-932136-10-1) remains unverified. Larsson and Saha~\cite{LarssonSaha2025} provide survey background.
+
+Among 2026 works, Manabe~\cite{Manabe2026} treats purely periodic \emph{three}-move games, a different parameter regime. We examined Moriwaki~\cite{Moriwaki2026} at Theorems~2 (p.~8), 3 (p.~10), and 4 (p.~23). Theorem~2 assumes, for the entire sorted move set $s_1<\cdots<s_r$, the adjacent-gap bounds $s_{j+1}\le s_j+s_1$. Our set violates this at $7>3+3$. Theorem~4 has a different structure: it starts with a \emph{base} set $B=\{b_1<\cdots<b_r\}$ satisfying these bounds and constructs $B_l=B\cup\{b_1+b_r,2b_1+b_r,\ldots,lb_1+b_r\}$ for $l\ge0$. It does not directly yield our $S_c=\{3,7,9,c\}$ for any base $B$ and $l$: if $l=0$, the base is $S_c$ and its gap bound fails; if $l\ge1$, every element of $B\subseteq S_c$ is odd, so the required added move $b_1+b_r$ is even and cannot belong to $S_c$. Theorem~3 treats three moves. Thus none of these specified theorems directly covers the present four-move formula; this does not exclude indirect consequences of other work. Inoue and Inazu~\cite{InoueInazu2026} study subtraction of suffixes from \emph{words}. A subsequent author-side targeted reading of their HTML full text, including Theorem~2.9 on regularity of the language of winning positions and the Grundy-number discussion, identified no direct theorem giving the present integer-heap formula. This is a bounded source comparison, not an exclusion of all indirect implications. No exact predecessor for our formula was identified in these bounded checks, but \textbf{NOVELTY remains INCONCLUSIVE}.
+
+\section{Definitions and statement}
+For $n\ge0$, let $g_S(n)$ be defined by
+\begin{equation}\label{eq:mex}
+ g_S(n)=\mex\{g_S(n-s):s\in S,\ s\le n\},\qquad\mex\emptyset=0.
+\end{equation}
+The \emph{least eventual period} $p$ is the least $p\ge1$ for which there exists $T\ge0$ such that $g_S(n+p)=g_S(n)$ for all $n\ge T$. The \emph{least preperiod} $T$ is the least starting point of a periodic suffix. These minima are considered for the same eventually periodic sequence.
+
+For a finite digit word $U$, write $U^r$ for $r$ concatenated copies, $U^\infty$ for its infinite repetition, and juxtaposition for concatenation. Set
+\[ W=\word{000111022133020},\qquad |W|=15.\]
+We use $W_{<11}=\word{00011102213}$ for the first $11$ symbols of $W$.
+
+\begin{theorem}\label{thm:main}
+Let $c$ be any odd integer greater than $9$, and let $S_c=\{3,7,9,c\}$. The complete Sprague--Grundy word $\SG_c=(g_{S_c}(0),g_{S_c}(1),\ldots)$ is as follows.
+\begin{enumerate}[label=(\roman*)]
+\item For every odd $c\ge23$,
+\begin{equation}\label{eq:word}
+\SG_c=W\,(\word{10})^{(c-15)/2}\,\word{12103}\,(\word{01})^\infty.
+\end{equation}
+\item For the remaining odd values $c>9$,
+\begin{align*}
+\SG_{11}&=W_{<11}\,\word{32203}\,(\word{01})^\infty,\\
+\SG_{13}&=(\word{0001110221330241})^\infty,\\
+\SG_{15}&=W\,\word{13102}\,(\word{01})^\infty,\\
+\SG_{17}&=W\,\word{10}\,\word{12103}\,(\word{01})^\infty,\\
+\SG_{19}&=W\,(\word{10})^{2}\,\word{14102}\,(\word{01})^\infty,\\
+\SG_{21}&=W\,(\word{10})^{3}\,\word{13102}\,(\word{01})^\infty.
+\end{align*}
+\end{enumerate}
+The \emph{least} preperiod and least eventual period are
+\begin{equation}\label{eq:T-p}
+(T,p)=\begin{cases}(0,16),&c=13,\\(c+5,2),&\text{otherwise}.\end{cases}
+\end{equation}
+\end{theorem}
+
+\section{Proof for the infinite family $c\ge23$}
+\begin{lemma}\label{lem:base}
+For the three-move set $S_0=\{3,7,9\}$, one has
+\[ \SG_{S_0}=W\,(\word{10})^\infty.\]
+\end{lemma}
+\begin{proof}
+Direct evaluation of~\eqref{eq:mex} for $0\le n\le23$ gives the stated first $24$ digits. For $n\ge24$, the three predecessors $n-3$, $n-7$, $n-9$ are all at least $15$ and have parity opposite to $n$. In the proposed tail, an even index has value $0$ and an odd index value $1$. Hence the three predecessor values are all $1$ if $n$ is even, and all $0$ if $n$ is odd. Their mex is respectively $0$ or $1$, proving the recurrence and the displayed word by induction.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}(i)]
+Fix odd $c\ge23$, and let $f$ denote the right-hand side of~\eqref{eq:word}. For all $0\le n<c$, move $c$ is illegal, and $f$ agrees with the base word in Lemma~\ref{lem:base}. The five new symbols at indices $c,c+1,\ldots,c+4$ are $\word{12103}$. The predecessor symbols for moves $3,7,9,c$ give the following exact mex checks:
+\begin{center}
+\begin{tabular}{ccl}
+\toprule
+$n$ & predecessor values & mex\\
+\midrule
+$c$ & $(0,0,0,0)$ & $1$\\
+$c+1$ & $(1,1,1,0)$ & $2$\\
+$c+2$ & $(0,0,0,0)$ & $1$\\
+$c+3$ & $(1,1,1,1)$ & $0$\\
+$c+4$ & $(2,0,0,1)$ & $3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+These evaluations use $c-9\ge14$ and the explicitly checked terminal digit of $W$ at index $14$; the stable alternating base phase applies thereafter.
+
+The candidate $f$ has the following properties, all read directly from its displayed word:
+\begin{enumerate}[label=(\Alph*)]
+\item $f(j)\ne0$ for every odd $j\ge5$;
+\item $f(j)\ne1$ for every even $j\ge6$;
+\item $f(j)=0$ for every even $j\ge c-3$, except that $f(c+1)=2$.
+\end{enumerate}
+We verify the recurrence for all $n\ge c+5$. If $n$ is even, all four legal predecessor indices $n-3,n-7,n-9,n-c$ are odd and at least $5$. By (A), none of their values is $0$, hence the mex is $0=f(n)$.
+
+If $n$ is odd, these four predecessor indices are even, with $n-c\ge6$. By (B), none has value $1$. The three distinct indices $n-3,n-7,n-9$ all lie at or beyond $c-3$. By (C), at most one of their values is nonzero, so at least two equal $0$. The mex is consequently $1=f(n)$. Strong induction now shows that the candidate word satisfies~\eqref{eq:mex}, and uniqueness of the recursion yields $f=\SG_c$.
+
+The alternating tail begins at $T=c+5$, an even index, and contains both $0$ and $1$, so its least period is $2$. Also $f(T-1)=f(c+4)=3$ whereas $f(n)\in\{0,1\}$ for every $n\ge T$. If any period $q\ge1$ held from $T'<T$, it would imply $f(T-1)=f(T-1+q)$. But $T-1+q\ge T$, so the right-hand side is $0$ or $1$, a contradiction. Thus \emph{no period of any length} can begin earlier, establishing the least preperiod $T=c+5$.
+\end{proof}
+
+\section{The six small parameters: finite proof certificates}
+For $c\in\{11,13,15,17,19,21\}$, the words in Theorem~\ref{thm:main}(ii) are specified by a finite prefix and a periodic suffix. The following principle makes the remaining recurrence verification finite.
+
+\begin{lemma}[Finite periodic-word check]\label{lem:finite}
+Let $c=\max S$ and let a proposed word $f$ be periodic from index $T$ with period $p$. If $f$ satisfies~\eqref{eq:mex} for every $0\le n\le T+p+c-1$, then $f$ satisfies the recurrence for every $n\ge0$.
+\end{lemma}
+\begin{proof}
+Proceed by strong induction. For $n\ge T+p+c$, all predecessors for both $n$ and $n-p$ are legal, and $(n-p)-s\ge T$ for every $s\in S$. Periodicity of the candidate word makes the lists of predecessor values at $n$ and $n-p$ equal. Thus their mex values agree, and since $f(n)=f(n-p)$, the recurrence at $n-p$ (already established at a smaller index) implies the recurrence at $n$.
+\end{proof}
+
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+$c$ & candidate $T$ & candidate $p$ & last checked index $T+p+c-1$ & status\\
+\midrule
+11 & 16 & 2 & 28 & PASS\\
+13 & 0 & 16 & 28 & PASS\\
+15 & 20 & 2 & 36 & PASS\\
+17 & 22 & 2 & 40 & PASS\\
+19 & 24 & 2 & 44 & PASS\\
+21 & 26 & 2 & 48 & PASS\\
+\bottomrule
+\end{tabular}
+\end{center}
+The accompanying code checks each complete proposed word against the mex recursion throughout its finite certificate range; Lemma~\ref{lem:finite} upgrades this to an infinite identity. For $c=13$, the repeated $16$-letter word has no periods dividing $16$ other than $16$ itself, and being purely periodic it has least preperiod zero. For each of the other five cases, the symbol immediately before $T=c+5$ lies outside $\{0,1\}$, whereas all symbols at and after $T$ lie inside $\{0,1\}$. The arbitrary-period contradiction in the proof above gives sharp minimality of $T$; the nonconstant alternating tail has least period two.
+
+The finite certificates are an essential computational component of the proof, not a claim of exhaustive search over all subtraction sets. Their sources are included unchanged from the audited REV3 package.
+
+\section{Reproducibility and limitations}
+The audit package includes (i) a Python verifier for the finite candidate words; (ii) a separately coded C++17 verifier for odd $c\ge23$; and (iii) a C++17 verifier for six exceptional parameter values. Their frozen SHA256 values and invocation instructions appear in the accompanying manifest and README. The author-provided Windows PowerShell 5.1 record reports all finite checks passed; the archive contains only a privacy-safe summary, not the raw user-machine log. An author-supplied AI reviewer also reports an independently written recurrence enumeration over $996$ odd parameters $11\le c\le2001$, agreeing with all formulas. Such checks support reproducibility but cannot alone establish an infinite theorem; the proof above supplies that argument.
+
+Historical novelty is not certified. The observational period-two claim is already present in Zhang's Remark~7, whereas the prospective contribution here is the all-odd-$c$ proof for $a=3$, sharp preperiods, and complete nim-words. The author-hosted original of Flammenkamp's dissertation was obtained, authenticated by SHA256, converted to a 156-page PDF, and its relevant passages compared directly; no direct anticipation was identified \emph{in those examined passages}. The inspected Zhang source is the author's revision dated 30 July 2025, not a guaranteed byte-identical journal edition. Moriwaki's Theorem~2 fails its full-set gap hypothesis here, and Theorem~4 cannot construct our all-odd set from an admissible base (the first adjoined move would be even); this is not a comprehensive theorem-implication survey. Inoue--Inazu was subsequently compared by author-side targeted full-text reading; no direct predecessor was identified within that check. The enlarged Flammenkamp book remains unverified. Accordingly, \textbf{REFERENCES PARTIAL; NOVELTY INCONCLUSIVE}. This is a limited, publicly released mathematical preprint, not human peer-reviewed. No claim is made for even $c$, general $a>3$, or arbitrary subtraction sets. The unchanged verifiers were rerun during v1.0 preparation under Linux and reproduced the recorded finite-check counts; a new Windows v1.0 execution was not performed.
+
+\paragraph{Rights and disclosure.} Copyright \textcopyright\ 2026 Ryutaro Yonezu. All rights reserved. This research was conducted with AI assistance and computational verification. Human peer review: not performed. Publication type: Preprint; version: v1.0.
+
+\begingroup\small
+\begin{thebibliography}{99}\setlength{\itemsep}{2pt}
+\bibitem{Zhang2024} S.~Zhang, ``On the linearity of the periods of subtraction games,'' \emph{Theoretical Computer Science} \textbf{985} (2024), article 114350. \href{https://doi.org/10.1016/j.tcs.2023.114350}{doi:10.1016/j.tcs.2023.114350}. Author-posted revision dated 30 July 2025, esp.~Theorem~6.3 and Remark~7.
+\bibitem{CairnsHo2010} G.~Cairns and N.~B.~Ho, ``Ultimately bipartite subtraction games,'' \emph{Australasian Journal of Combinatorics} \textbf{48} (2010), 213--220. \url{https://ajc.maths.uq.edu.au/pdf/48/ajc_v48_p213.pdf}.
+\bibitem{Ho2015} N.~B.~Ho, ``On the expansion of three-element subtraction sets,'' \emph{Theoretical Computer Science} \textbf{582} (2015), 35--47. \href{https://doi.org/10.1016/j.tcs.2015.03.025}{doi:10.1016/j.tcs.2015.03.025}.
+\bibitem{Flammenkamp1997} A.~Flammenkamp, \emph{Lange Perioden in Subtraktions-Spielen}, Ph.D.~dissertation, Universit\"at Bielefeld, submitted November 1996 (frequently catalogued as 1997). Author-hosted source: \url{https://wwwhomes.uni-bielefeld.de/achim/diss.ps.gz}. Relevant passages directly compared in the present audit.
+\bibitem{LarssonSaha2025} U.~Larsson and I.~Saha, ``A brief conversation about subtraction games,'' in \emph{Games of No Chance 6} (2025), pp.~25--42. \href{https://doi.org/10.1017/9781009565486.003}{doi:10.1017/9781009565486.003}.
+\bibitem{Manabe2026} H.~Manabe, ``Purely periodic three-move subtraction games,'' arXiv:2609.05358 (2026), version~2. \url{https://arxiv.org/abs/2609.05358}.
+\bibitem{Moriwaki2026} Y.~Moriwaki, ``Subtraction Nim with Continuous Parameters,'' arXiv:2606.11658v1 (10 June 2026), 36 pages. \url{https://arxiv.org/abs/2606.11658}.
+\bibitem{InoueInazu2026} Y.~Inoue and H.~Inazu, ``Word Subtraction Games,'' arXiv:2611.09157 (2026), submitted 6 November 2026. \url{https://arxiv.org/abs/2611.09157}.
+\end{thebibliography}\endgroup
+\end{document}

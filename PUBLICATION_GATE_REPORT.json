@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-11",
+  "version": "v1.0",
+  "result": "PASS",
+  "gates": [
+    {
+      "number": 1,
+      "gate": "Archive inventory and SHA256",
+      "result": "PASS",
+      "evidence": "Original ZIP checked; all 25 payload hashes match."
+    },
+    {
+      "number": 2,
+      "gate": "Frozen mathematical range",
+      "result": "PASS",
+      "evidence": "6,656 bytes, byte-identical; SHA256 3314bc24a76be60369880f1ce03bd69cb3c5845e59406b23b17cad656aa05431."
+    },
+    {
+      "number": 3,
+      "gate": "Three verification sources",
+      "result": "PASS",
+      "evidence": "All three byte-identical to v0.4; rechecked after final typesetting."
+    },
+    {
+      "number": 4,
+      "gate": "Inherited AI-audit scope",
+      "result": "PASS",
+      "evidence": "Earlier author-supplied PASS reports and later v0.4 PASS addendum distinguished from author-side source checks; no human review claimed."
+    },
+    {
+      "number": 5,
+      "gate": "Windows finite reproduction",
+      "result": "PASS",
+      "evidence": "PowerShell 5.1 finite PASS confirmed within the author-provided sanitized evidence summary; not a new Windows v1.0 rerun."
+    },
+    {
+      "number": 6,
+      "gate": "PDF and TeX correspondence",
+      "result": "PASS",
+      "evidence": "Final PDF built from the distributed TeX; frozen range identical and all mathematical pages visually inspected."
+    },
+    {
+      "number": 7,
+      "gate": "Reference claim boundaries",
+      "result": "PASS",
+      "evidence": "Zhang finite observation credited; Flammenkamp book unverified; Moriwaki Theorems 2/4 distinguished; Inoue-Inazu review bounded; no priority certification."
+    },
+    {
+      "number": 8,
+      "gate": "Private information exclusion",
+      "result": "PASS",
+      "evidence": "Public files allowlisted; text/PDF/archive scan found no local workstation paths, private emails, credentials, binaries, or Windows raw logs."
+    },
+    {
+      "number": 9,
+      "gate": "Rights and research disclosures",
+      "result": "PASS",
+      "evidence": "All rights reserved; not human peer-reviewed; AI-assisted; NOVELTY INCONCLUSIVE; REFERENCES PARTIAL in paper and publication metadata."
+    },
+    {
+      "number": 10,
+      "gate": "PDF full-page visual check",
+      "result": "PASS",
+      "evidence": "All four final PDF pages inspected; formulas, tables and references legible; no clipping, overlap or unresolved citations."
+    }
+  ]
+}
