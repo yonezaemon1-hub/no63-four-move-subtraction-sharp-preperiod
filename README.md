@@ -49,3 +49,10 @@ The frozen mathematical TeX segment is 6,656 bytes, SHA256
 All three verifier sources are byte-identical to the mathematical original.
 The full source ZIP and earlier audit history remain preserved separately;
 FREEZE_PROVENANCE.md connects this version to those exact records.
+
+## Author correspondence (metadata update, 2026-11-12)
+
+**Ryutaro Yonezu — Independent Researcher**  
+Research correspondence: **yonezaemon1+research@gmail.com**
+
+This contact-information addition does not revise any mathematical claims, frozen verification files, published preprint PDF, release assets, DOI, or existing SHA256 checksums.
